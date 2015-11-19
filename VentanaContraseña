@@ -1,0 +1,120 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+
+public class JTextFields {
+
+	public static void main(String[] args) {
+		VentanaJTF miventana = new VentanaJTF();
+		
+		miventana.setVisible(true);
+
+	}
+
+}
+
+class VentanaJTF extends JFrame{
+	
+	public VentanaJTF(){
+		
+		setTitle("Ventana Verificar Contraseña.");
+		
+		setBounds(300,200,600,400);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		LaminaJTF milamina = new LaminaJTF();
+		
+		add(milamina);
+
+		
+	}
+	
+}
+
+class LaminaJTF	extends JPanel{
+	
+	public LaminaJTF(){
+		
+		setLayout(new BorderLayout());
+		
+		JPanel laminasuperior = new JPanel();
+		
+		laminasuperior.setLayout(new GridLayout(2, 2));
+		
+		texto1= new JTextField(20);
+		pass1= new JPasswordField(20);
+		etiqueta1 = new JLabel("Usuario");
+		etiqueta2 = new JLabel("Password (min 8 char - max 12 char)");
+
+		laminasuperior.add(etiqueta1);
+		laminasuperior.add(texto1);
+		laminasuperior.add(etiqueta2);
+		laminasuperior.add(pass1);
+		
+		add(laminasuperior, BorderLayout.NORTH);
+		
+		JPanel laminainferior = new JPanel();
+		
+		boton = new JButton("Enviar");
+		
+		laminainferior.add(boton);
+		
+		add(laminainferior, BorderLayout.SOUTH);
+		
+		TextoOyente evento = new TextoOyente();
+		
+		pass1.getDocument().addDocumentListener(evento);
+		
+	}
+	
+	
+	private class TextoOyente implements DocumentListener{
+
+		public void changedUpdate(DocumentEvent e) {
+			
+		}
+
+		public void insertUpdate(DocumentEvent e) {
+			
+			char[] contraseña;
+			
+			contraseña = pass1.getPassword();
+			
+			if(contraseña.length <8 || contraseña.length > 12){
+				pass1.setBackground(Color.RED);
+			}
+			else pass1.setBackground(Color.WHITE);
+		}
+
+		public void removeUpdate(DocumentEvent e) {
+			char[] contraseña;
+			
+			contraseña = pass1.getPassword();
+			
+			if(contraseña.length <8 || contraseña.length > 12){
+				pass1.setBackground(Color.RED);
+			}
+			else pass1.setBackground(Color.WHITE);
+		}
+		
+		
+		
+	}
+	
+	
+	JTextField texto1;
+	JPasswordField pass1;
+	JLabel etiqueta1, etiqueta2;
+	JButton boton;
+}
