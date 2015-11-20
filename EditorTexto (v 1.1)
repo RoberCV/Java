@@ -1,0 +1,89 @@
+import java.awt.BorderLayout;
+import java.awt.Font;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class JSliders {
+
+	public static void main(String[] args) {
+		
+		VentanaSlider miventana = new VentanaSlider();
+		
+		miventana.setVisible(true);
+
+	}
+
+}
+
+
+class VentanaSlider extends JFrame{
+	
+	public VentanaSlider(){
+		
+		setTitle("Ventana Manipulación Sliders.");
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setBounds(150, 150, 400, 400);
+		
+		LaminaSlider milamina = new LaminaSlider();
+		
+		add(milamina);
+		
+	}
+	
+}
+
+class LaminaSlider extends JPanel{
+	
+	public LaminaSlider(){
+		
+		setLayout(new BorderLayout());
+		
+		JPanel lamina1 = new JPanel();
+		
+		slider =  new JSlider(20,90, 50);
+		
+		slider.setMajorTickSpacing(20);
+		
+		slider.setMinorTickSpacing(5);
+		
+		slider.setPaintTicks(true);
+		
+		slider.setPaintLabels(true);
+		
+		lamina1.add(slider);
+		
+		add(lamina1, BorderLayout.NORTH);
+		
+		etiqueta =  new JLabel("Esto es un texto de prueba para cambiarle el tamaño con el Slider");	
+		
+		JPanel lamina2 = new JPanel();
+		
+		lamina2.add(etiqueta);
+		
+		add(lamina2, BorderLayout.SOUTH);
+		
+		slider.addChangeListener(new SliderOyente());
+		
+	}
+	
+	private class SliderOyente implements ChangeListener{
+
+		public void stateChanged(ChangeEvent e) {
+			
+			etiqueta.setFont(new Font("serif", Font.ITALIC, slider.getValue()));
+			
+		}
+		
+	}
+	
+	JSlider slider;
+	JLabel etiqueta;
+	
+}
