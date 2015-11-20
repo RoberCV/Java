@@ -1,0 +1,102 @@
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+public class JTextAreas {
+
+	public static void main(String[] args) {
+
+
+		VentanaJTA miventana = new VentanaJTA();
+		
+		miventana.setVisible(true);
+	}
+
+}
+
+class VentanaJTA extends JFrame{ 
+	
+	
+	public VentanaJTA(){
+		
+		setTitle("Editor Textos");
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setBounds(200,200, 500,500);
+		
+		LaminaJTA milamina = new LaminaJTA();
+		
+		add(milamina);
+		
+		
+		
+	}
+	
+}
+
+class LaminaJTA extends JPanel{
+	
+	
+	public LaminaJTA(){
+		
+		setLayout(new BorderLayout());
+		
+		JPanel lamina1 = new JPanel();
+
+		areatexto = new JTextArea(10,20);
+		
+		areatexto.setFont(new Font("serif", Font.PLAIN, 20));
+		
+		areatexto.setLineWrap(true);
+		
+		lamina1.add(areatexto);
+		
+		add(lamina1);
+		
+		JPanel lamina2 = new JPanel();
+		
+		lamina2.setLayout(new GridLayout(1, 3));
+		
+		add(lamina2, BorderLayout.SOUTH);
+		
+		boton1 = new JCheckBox("Negrita");
+		
+		boton2 = new JCheckBox("Cursiva");
+		
+		lamina2.add(boton1);
+		
+		lamina2.add(boton2);
+		
+		boton1.addActionListener(new LaminaOyente());
+		
+		boton2.addActionListener(new LaminaOyente());
+		
+	}
+	
+	private class LaminaOyente implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			
+			int letra = 0;
+			
+			if(boton1.isSelected()) letra+=Font.BOLD;
+			if(boton2.isSelected()) letra+=Font.ITALIC;
+			areatexto.setFont(new Font("serif", letra, 20));
+			
+		}
+
+	}
+	
+	
+	
+	JTextArea areatexto;
+	JCheckBox boton1, boton2;
+}
