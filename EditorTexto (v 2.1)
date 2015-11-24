@@ -1,0 +1,188 @@
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
+
+public class ProcesadorDeTextos {
+
+	public static void main(String[] args) {
+		
+		VentanaPDT miventana = new VentanaPDT();
+		
+		miventana.setVisible(true);
+
+	}
+
+}
+
+class VentanaPDT extends JFrame{
+	
+	public VentanaPDT(){
+		
+		setTitle("Procesador de Textos.");
+		
+		setBounds(200,200,400,400);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		LaminaPDT milamina = new LaminaPDT();
+		
+		add(milamina);
+	}
+	
+}
+
+class LaminaPDT extends JPanel{
+	
+	public LaminaPDT(){
+		
+		setLayout(new BorderLayout());
+		
+		JPanel lamina1 = new JPanel();
+		
+		barramenu= new JMenuBar();
+		
+		lamina1.add(barramenu);
+		
+		//-------------------------------------------------------------------
+		
+		fuente = new JMenu("Fuente");
+		
+		barramenu.add(fuente);
+		
+		estilo = new JMenu("Estilo");
+		
+		barramenu.add(estilo);
+		
+		tamaño = new JMenu("Tamaño");
+		
+		barramenu.add(tamaño);
+		
+		add(lamina1, BorderLayout.NORTH);
+		
+		//-----------------------------------------------------
+		
+
+		configuraMenu("Arial", "fuente", "Arial", 9, 10 );
+		
+		configuraMenu("Courier", "fuente", "Courier", 9, 10 );
+		
+		configuraMenu("Verdana", "fuente", "Verdana", 9, 10 );
+		
+		//------------------------------------------------------------
+		
+		configuraMenu("Negrita", "estilo", "", Font.BOLD, 1 );
+		
+		configuraMenu("Cursiva", "estilo", "", Font.ITALIC, 1 );
+		
+		//---------------------------------------------------------------
+		
+		configuraMenu("12", "tamaño", "", 9, 12 );
+		
+		configuraMenu("16", "tamaño", "", 9, 16 );
+		
+		configuraMenu("20", "tamaño", "", 9, 20 );
+		
+		configuraMenu("24", "tamaño", "", 9, 24 );
+		
+		
+		//------------------------------------------------------------
+		
+		
+		mipanel = new JTextPane();
+		
+		add(mipanel, BorderLayout.CENTER);
+		
+		
+		
+	}
+	
+	//---------------------------------------
+	
+	public void configuraMenu(String rotulo, String menu, String tipo_letra, int estilos, int tam){
+		
+		JMenuItem elem_menu = new JMenuItem(rotulo);
+		
+		if(menu=="fuente"){
+			fuente.add(elem_menu);
+		}
+		
+		else if(menu == "estilo"){
+			estilo.add(elem_menu);
+		}
+		
+		else if(menu=="tamaño"){
+			tamaño.add(elem_menu);
+		}
+		
+		elem_menu.addActionListener(new GestionaTexto(rotulo, tipo_letra, estilos, tam));
+	}
+	
+	private class GestionaTexto implements ActionListener{
+		
+		String estilo_letra, menu;
+		
+		int tamaño_letra, tipo_letra;
+		
+		public GestionaTexto(String elemento, String texto2, int estilo, int tam_letra){
+			
+			estilo_letra= texto2;
+			
+			tipo_letra= estilo;
+			
+			tamaño_letra = tam_letra;
+			
+			menu = elemento;
+			
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			
+			letras= mipanel.getFont();
+			
+			if(menu=="Arial" || menu=="Courier"|| menu=="Verdana"){
+				
+				tipo_letra=letras.getStyle();
+				
+				tamaño_letra=letras.getSize();
+			}
+			
+			else if(menu=="Cursiva" || menu=="Negrita"){
+				  if(letras.getStyle()==1 || letras.getStyle()==2){
+					  
+					  tipo_letra=3;
+				  }
+				estilo_letra=letras.getFontName();
+				
+				tamaño_letra=letras.getSize();
+			}
+			
+			else if(menu=="12"||menu=="16"|| menu=="20" ||menu=="24"){
+				
+				estilo_letra=letras.getFontName();
+				
+				tipo_letra=letras.getStyle();
+			}
+			
+			mipanel.setFont(new Font(estilo_letra, tipo_letra, tamaño_letra));
+			
+		}
+		
+	}
+	
+	JMenuBar barramenu;
+	
+	JMenu fuente, estilo, tamaño;
+	
+	JTextPane mipanel;
+	
+	Font letras;
+	
+}
