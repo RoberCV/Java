@@ -1,0 +1,255 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.JToolBar;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.StyledEditorKit.FontFamilyAction;
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
+
+public class Editor_Texto {
+
+	public static void main(String[] args) {
+		
+		VentanaET miventana = new VentanaET();
+		
+		miventana.setVisible(true);
+
+	}
+
+}
+
+class VentanaET extends JFrame{
+	
+	public VentanaET(){
+		setTitle("Editor Textos");
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setBounds(200, 200, 500, 500);
+		
+		LaminaET milamina = new LaminaET();
+		
+		add(milamina);
+	}
+}
+
+class LaminaET extends JPanel{
+	
+	public LaminaET(){
+		
+		setLayout(new BorderLayout());
+		
+		//--------------------------------------------------------
+		
+		JPanel laminanorte = new JPanel();
+		
+		barra = new JMenuBar();
+		
+		laminanorte.add(barra);
+		
+		add(laminanorte,BorderLayout.NORTH);
+		
+		//-------------------------------------------------------------
+		
+		miarea= new JTextPane();
+		
+		add(miarea, BorderLayout.CENTER);
+		
+		//-----------------------------------------------------------
+		
+		fuente= new JMenu("Fuente");
+		
+		estilo = new JMenu("Estilo");
+		
+		tamaño = new JMenu("Tamaño");
+		
+		barra.add(fuente);
+		
+		barra.add(estilo);
+		
+		barra.add(tamaño);
+		
+		//-------------------------------------------------------------
+		
+		configura_menu("fuente", "Arial", "Arial",1);
+		
+		configura_menu("fuente", "Verdana", "Verdana",1);
+		
+		configura_menu("fuente", "Courier", "Courier",1);
+		
+		//----------------------------------------------------------
+		
+		configura_menu("estilo", "Negrita", "", 1);
+		
+		configura_menu("estilo", "Cursiva", "", 1);
+		
+		//---------------------------------------------------------------
+		
+		ButtonGroup botones = new ButtonGroup();
+		
+		JRadioButtonMenuItem doce = new JRadioButtonMenuItem("12");
+		
+		JRadioButtonMenuItem dieciseis = new JRadioButtonMenuItem("16");
+		
+		JRadioButtonMenuItem veinte = new JRadioButtonMenuItem("20");
+		
+		JRadioButtonMenuItem veinticuatro = new JRadioButtonMenuItem("24");
+		
+		//----------------------------------------------------------------------
+		
+		botones.add(doce);
+		
+		botones.add(dieciseis);
+		
+		botones.add(veinte);
+		
+		botones.add(veinticuatro);
+		
+		tamaño.add(doce);
+		
+		tamaño.add(dieciseis);
+		
+		tamaño.add(veinte);
+		
+		tamaño.add(veinticuatro);
+		
+		doce.addActionListener(new StyledEditorKit.FontSizeAction("cambia_tam", 12));
+		
+		dieciseis.addActionListener(new StyledEditorKit.FontSizeAction("cambia_tam", 16));
+		
+		veinte.addActionListener(new StyledEditorKit.FontSizeAction("cambia_tam", 20));
+		
+		veinticuatro.addActionListener(new StyledEditorKit.FontSizeAction("cambia_tam", 24));
+		
+		
+		//----------------------------------------------------------------
+		
+		JPanel laminaizq = new JPanel();
+		
+		JToolBar barraherramientas = new JToolBar(1);
+		
+		laminaizq.add(barraherramientas);
+		
+		JButton azul = new JButton(new ImageIcon("src/Dibujos/azul.gif"));
+		
+		azul.addActionListener(new StyledEditorKit.ForegroundAction("cambia_color", Color.BLUE));
+		
+		barraherramientas.add(azul);
+		
+		JButton rojo = new JButton(new ImageIcon("src/Dibujos/rojo.gif"));
+		
+		rojo.addActionListener(new StyledEditorKit.ForegroundAction("cambia_color", Color.RED));
+		
+		barraherramientas.add(rojo);
+		
+		JButton amarillo = new JButton(new ImageIcon("src/Dibujos/amarillo.gif"));
+		
+		amarillo.addActionListener(new StyledEditorKit.ForegroundAction("cambia_color", Color.YELLOW));
+		
+		barraherramientas.add(amarillo);
+		
+		//-----------------------------------------------------------------------------
+		
+		barraherramientas.addSeparator();
+		
+		JButton negrita = new JButton(new ImageIcon("src/Dibujos/Negrita.gif"));
+		
+		negrita.addActionListener(new StyledEditorKit.BoldAction());
+		
+		barraherramientas.add(negrita);
+		
+		JButton cursiva = new JButton(new ImageIcon("src/Dibujos/Cursiva.gif"));
+		
+		cursiva.addActionListener(new StyledEditorKit.ItalicAction());
+		
+		barraherramientas.add(cursiva);
+		
+		JButton subrayado = new JButton(new ImageIcon("src/Dibujos/Subrayado.gif"));
+		
+		subrayado.addActionListener(new StyledEditorKit.UnderlineAction());
+		
+		barraherramientas.add(subrayado);
+		
+		//-----------------------------------------------------------------------------
+		
+		barraherramientas.addSeparator();
+		
+		JButton izquierda = new JButton(new ImageIcon("src/Dibujos/Izquierda.gif"));
+		
+		izquierda.addActionListener(new StyledEditorKit.AlignmentAction("izquierda", 0));
+		
+		barraherramientas.add(izquierda);
+		
+		JButton centrado = new JButton(new ImageIcon("src/Dibujos/Centrado.gif"));
+		
+		centrado.addActionListener(new StyledEditorKit.AlignmentAction("centrado", 1));
+		
+		barraherramientas.add(centrado);
+		
+		JButton derecha = new JButton(new ImageIcon("src/Dibujos/Derecha.gif"));
+		
+		derecha.addActionListener(new StyledEditorKit.AlignmentAction("derecha", 2));
+		
+		barraherramientas.add(derecha);
+		
+		
+		
+		add(laminaizq, BorderLayout.WEST);
+		
+		//------------------------------------------------------------------
+		
+	}
+	
+	public void configura_menu(String menu, String menuItems, String fuente_letra, int tam){
+		
+		JMenuItem elem_menu = new JMenuItem(menuItems);
+		
+		JCheckBoxMenuItem elem_menu1 = new JCheckBoxMenuItem(menuItems);
+		
+		if(menu=="fuente"){
+			
+			fuente.add(elem_menu);
+			
+			elem_menu.addActionListener(new StyledEditorKit.FontFamilyAction("cambia_fuente", fuente_letra));
+		}
+		
+		else if(menu =="estilo"){
+			
+			estilo.add(elem_menu1);
+			
+			
+			if(menuItems == "Negrita"){
+				elem_menu1.addActionListener(new StyledEditorKit.BoldAction());
+			}
+			
+			else if(menuItems == "Cursiva"){
+				elem_menu1.addActionListener(new StyledEditorKit.ItalicAction());
+			}
+		}
+		
+		
+	}
+	
+	
+	
+	JMenuBar barra;
+	JMenu tamaño, fuente, estilo; 
+	JTextPane miarea;
+}
